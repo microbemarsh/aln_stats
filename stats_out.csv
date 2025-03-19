@@ -1,0 +1,5 @@
+QueryName,TargetName,ReadIdentity,AlignmentIdentity,ReadCoverage,ReferenceCoverage,MismatchesPerAlignedBase,InsertionsPerReadBase,DeletionsPerReadBase,ReadLength,Depth
+Sphingobacterium_puteal_r1,2420510:emu_db:1,1.0,1.0,1.0,0.8600964851826327,0.0,0.0,0.0,1248,2
+Sphingobacterium_puteal_r2,2420510:emu_db:1,1.0,1.0,1.0,0.9310820124052378,0.0,0.0,0.0,1351,2
+Mycobacterium_saskatchewanense_r1,220927:emu_db:16907,1.0,1.0,1.0,0.7756452680344142,0.0,0.0,0.0,1172,1
+Streptococcus_sobrinus_r1,1310:emu_db:16914,1.0,1.0,1.0,0.8842652795838751,0.0,0.0,0.0,1360,1
