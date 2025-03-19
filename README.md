@@ -27,8 +27,8 @@ conda activate aln_stats
 conda activate aln_stats
 
 # Run minimap2 and output the paf file of interest
-minimap2 -x map-ont -t $nproc -c --cs=long --secondary=no test/emu_reference.fasta test/full_length.fa > test/test.paf
+minimap2 -x map-ont -t $nproc -c --cs=long --secondary=no tests/emu_reference.fasta tests/full_length.fa > tests/test.paf
 
 # Bonus! Extract the aligned sequences we can then run
-paftools.js longcs2seq test/test.paf test/full_length.fa
+paftools.js longcs2seq tests/test.paf tests/full_length.fa
 ```
