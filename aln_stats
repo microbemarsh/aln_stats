@@ -287,7 +287,7 @@ def parsePaf(pafPath, readLengths=None, refLengths=None, globalAlignment=True):
     return alignments
 
 def main():
-    usage_str = "usage: %prog pafFile readFastqFile referenceFastaFile [options]"
+    usage_str = "usage: %prog pafFile referenceFastaFile readFastqFile [options]"
     parser = OptionParser(usage=usage_str, version="%prog 0.1")
     
     parser.add_option("--readIdentity", action="store_true", default=False,
@@ -318,13 +318,13 @@ def main():
     (options, args) = parser.parse_args()
     if len(args) != 3:
         parser.print_help()
-        sys.exit("ERROR: Expected three arguments (pafFile, readFastqFile, referenceFastaFile).")
+        sys.exit("ERROR: Expected three arguments (pafFile, referenceFastaFile, readFastqFile).")
 
-    pafFile, readFastqFile, referenceFastaFile = args
+    pafFile, referenceFastaFile, readFastqFile = args
 
-    # Optionally parse read & reference lengths
-    readLengths = parseFastqLengths(readFastqFile) if os.path.isfile(readFastqFile) else {}
+    # Optionally parse reference & read lengths
     refLengths  = parseFastaLengths(referenceFastaFile) if os.path.isfile(referenceFastaFile) else {}
+    readLengths = parseFastqLengths(readFastqFile) if os.path.isfile(readFastqFile) else {}
 
     # Parse PAF
     alignments = parsePaf(
