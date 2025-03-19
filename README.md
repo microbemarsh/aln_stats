@@ -3,8 +3,8 @@ Generate alignment statistics from a paf file
 
 ## Dependencies
 
-[minimap2](https://github.com/lh3/minimap2)
-[numpy](https://numpy.org/)
+* [minimap2](https://github.com/lh3/minimap2) 
+* [numpy](https://numpy.org/)
 
 ## Installation
 
@@ -15,7 +15,7 @@ git clone https://github.com/microbemarsh/aln_stats.git
 
 cd aln_stats
 
-conda create env -n aln_stats -f aln_stats.yml
+conda env create -n aln_stats -f aln_stats.yml
 
 conda activate aln_stats
 ```
@@ -28,7 +28,6 @@ conda activate aln_stats
 
 # Run minimap2 and output the paf file of interest
 minimap2 -x map-ont -t $nproc -c --cs=long --secondary=no test/emu_reference.fasta test/full_length.fa > test/test.paf
-
 
 # Bonus! Extract the aligned sequences we can then run
 paftools.js longcs2seq test/test.paf test/full_length.fa
