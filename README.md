@@ -40,7 +40,7 @@ minimap2 -ax map-ont -t $nproc --cs=long --secondary=no tests/emu_reference.fast
 aln_stats tests/test.sam tests/emu_reference.fasta tests/full_length.fa
 
 # Extract the aligned sequences
-paftools.js longcs2seq tests/test.paf tests/full_length.fasamtools view -F 4 tests/test.sam | samtools fasta -o tests/aligned_sequences.fa
+samtools fasta -F 4 tests/test.sam > tests/test_sam_queries.fasta
 ```
 
 ### BAMs ###
@@ -55,7 +55,7 @@ minimap2 -ax map-ont -t $nproc --cs=long --secondary=no tests/emu_reference.fast
 aln_stats tests/test.bam tests/emu_reference.fasta tests/full_length.fa
 
 # Extract the aligned sequences
-samtools view -F 4 tests/test.bam | samtools fasta -o tests/aligned_sequences.fa
+samtools fasta -F 4 tests/test.bam > tests/test_bam_queries.fasta
 ```
 
 ### PAFs ###
