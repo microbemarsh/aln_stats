@@ -8,6 +8,7 @@ from optparse import OptionParser
 import numpy
 from collections import Counter
 import pysam
+import gzip
 
 # Attempt to set the script file as executable for the owner.
 try:
@@ -21,7 +22,23 @@ except Exception:
 Script to calculate alignment statistics from a PAF, BAM, or SAM file.
 It reports per-read stats (such as read/align identity, coverage, etc.) and
 aggregates per-target depth (number of reads mapped to each target).
+
+Now supports gzipped text inputs:
+- reference FASTA: .fa.gz / .fasta.gz / .fna.gz
+- read FASTQ: .fastq.gz
+- PAF: .paf.gz
 """
+
+# Auto text opener that handles .gz and plain text
+def _open_text(path):
+    """
+    Open text file, auto-detecting gzip by extension.
+    Always returns a text-mode handle.
+    """
+    if str(path).lower().endswith(".gz"):
+        return gzip.open(path, "rt")
+    return open(path, "r")
+
 
 class PafAlignmentStats(object):
     """
@@ -167,13 +184,16 @@ class PafAlignmentStats(object):
 def parseFastaLengths(fastaPath):
     """
     Parse the reference FASTA file to obtain sequence lengths by name.
+    Supports plain text and .gz.
     """
     lengths = {}
-    with open(fastaPath, 'r') as f:
+    with _open_text(fastaPath) as f:
         seqName = None
         seqLen = 0
         for line in f:
             line = line.strip()
+            if not line:
+                continue
             if line.startswith(">"):
                 if seqName is not None:
                     lengths[seqName] = seqLen
@@ -188,9 +208,10 @@ def parseFastaLengths(fastaPath):
 def parseFastqLengths(fastqPath):
     """
     Parse a FASTQ file to get read lengths by name.
+    Supports plain text and .gz.
     """
     lengths = {}
-    with open(fastqPath, 'r') as f:
+    with _open_text(fastqPath) as f:
         while True:
             header = f.readline()
             if not header:
@@ -198,6 +219,8 @@ def parseFastqLengths(fastqPath):
             seq = f.readline()
             plus = f.readline()
             qual = f.readline()
+            if not seq:
+                break
             readName = header.strip().split()[0][1:]  # remove '@'
             lengths[readName] = len(seq.strip())
     return lengths
@@ -205,9 +228,10 @@ def parseFastqLengths(fastqPath):
 def parsePaf(pafPath, readLengths=None, refLengths=None, globalAlignment=True):
     """
     Parse a PAF file and return a list of PafAlignmentStats objects.
+    Supports plain text and .gz.
     """
     alignments = []
-    with open(pafPath, 'r') as f:
+    with _open_text(pafPath) as f:
         for line in f:
             if not line.strip() or line.startswith('#'):
                 continue
